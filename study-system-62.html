@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unit 62 - Overfishing and Aquaculture</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Lato:wght@400;700;900&display=swap');
+  :root{--blue:#1a4fa0;--orange:#e8630a;--green:#1a7a3c;--light-blue:#e8f0fb;--border:#e0e4ea;--bg:#f0f2f5}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Noto Sans JP',sans-serif;background:var(--bg);color:#222}
+  .header{background:var(--blue);color:white;padding:20px 24px 16px}
+  .header-top{display:flex;align-items:center;gap:12px;margin-bottom:4px}
+  .unit-badge{background:var(--orange);color:white;font-family:'Lato',sans-serif;font-weight:900;font-size:13px;padding:3px 10px;border-radius:20px}
+  .header h1{font-size:17px;font-weight:900}
+  .header-sub{font-size:13px;opacity:.75;margin-top:2px}
+  .header-bar{height:4px;background:var(--orange)}
+  .steps-nav{background:white;border-bottom:1px solid var(--border);display:flex;overflow-x:auto}
+  .step-btn{flex:1;min-width:80px;padding:12px 8px;border:none;background:none;font-family:'Noto Sans JP',sans-serif;font-size:12px;font-weight:700;color:#888;cursor:pointer;border-bottom:3px solid transparent;transition:all .2s;white-space:nowrap}
+  .step-btn.active{color:var(--blue);border-bottom-color:var(--blue)}
+  .step-btn:hover{background:var(--light-blue)}
+  .step-content{display:none;max-width:720px;margin:0 auto;padding:24px 20px 60px}
+  .step-content.active{display:block}
+  .listen-card{background:white;border-radius:12px;border:1px solid var(--border);padding:28px 24px;text-align:center;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+  .listen-icon{font-size:48px;margin-bottom:12px}
+  .listen-title{font-size:18px;font-weight:900;margin-bottom:6px}
+  .listen-sub{font-size:13px;color:#888;margin-bottom:20px}
+  audio{width:100%;margin-top:8px}
+  .para-card{background:white;border-radius:12px;border:1px solid var(--border);padding:24px;margin-bottom:16px;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+  .para-num{display:inline-block;background:var(--blue);color:white;font-family:'Lato',sans-serif;font-weight:900;font-size:12px;padding:2px 10px;border-radius:20px;margin-bottom:12px}
+  .para-en{font-family:'Lato',sans-serif;font-size:15px;line-height:1.9;margin-bottom:16px;color:#111}
+  .para-en em{font-style:normal;background:#fff3cd;padding:0 2px;border-radius:3px}
+  .para-ja{font-size:13px;line-height:1.9;color:#555;border-top:1px solid var(--border);padding-top:14px}
+  .box{border-radius:8px;padding:14px 16px;margin-top:14px;font-size:13px;line-height:1.8}
+  .vocab-box{background:#f0f7ff;border-left:4px solid var(--blue)}
+  .idiom-box{background:#fff5ee;border-left:4px solid var(--orange)}
+  .grammar-box{background:#f0fff4;border-left:4px solid var(--green)}
+  .box-title{font-weight:700;font-size:12px;text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px;opacity:.7}
+  .check-q{background:#fafafa;border:1px solid var(--border);border-radius:8px;padding:14px 16px;margin-top:14px;font-size:13px}
+  .check-q-label{font-weight:700;color:var(--blue);font-size:12px;margin-bottom:6px}
+  .quiz-card{background:white;border-radius:12px;border:1px solid var(--border);padding:22px;margin-bottom:16px;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+  .quiz-q{font-size:15px;font-weight:700;margin-bottom:16px;line-height:1.6}
+  .quiz-opts{display:flex;flex-direction:column;gap:10px}
+  .quiz-opt{padding:12px 16px;border:2px solid var(--border);border-radius:8px;cursor:pointer;font-size:14px;transition:all .15s;text-align:left;background:white;font-family:'Noto Sans JP',sans-serif}
+  .quiz-opt:hover{border-color:var(--blue);background:var(--light-blue)}
+  .quiz-opt.correct{border-color:var(--green);background:#f0fff4;color:var(--green)}
+  .quiz-opt.wrong{border-color:#e53e3e;background:#fff5f5;color:#c53030}
+  .quiz-fb{margin-top:12px;font-size:13px;padding:10px 14px;border-radius:8px;display:none;line-height:1.7}
+  .quiz-fb.show{display:block}
+  .quiz-fb.ok{background:#f0fff4;color:var(--green)}
+  .quiz-fb.ng{background:#fff5f5;color:#c53030}
+  .quiz-score{text-align:center;padding:24px;background:white;border-radius:12px;border:1px solid var(--border);margin-top:20px;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+  .score-num{font-size:48px;font-weight:900;color:var(--blue);font-family:'Lato',sans-serif}
+  .retry-btn{margin-top:16px;padding:12px 32px;background:var(--blue);color:white;border:none;border-radius:8px;font-size:15px;font-weight:700;cursor:pointer;font-family:'Noto Sans JP',sans-serif}
+  .fc-wrap{max-width:400px;margin:0 auto}
+  .fc-card{background:white;border-radius:16px;border:1px solid var(--border);min-height:200px;display:flex;align-items:center;justify-content:center;text-align:center;padding:32px 24px;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.08);transition:transform .1s;user-select:none;margin-bottom:16px}
+  .fc-card:active{transform:scale(.97)}
+  .fc-front{font-family:'Lato',sans-serif;font-size:22px;font-weight:700;color:var(--blue)}
+  .fc-back{display:none}
+  .fc-back-en{font-family:'Lato',sans-serif;font-size:18px;font-weight:700;color:var(--blue);margin-bottom:8px}
+  .fc-back-ja{font-size:15px;color:#555;margin-bottom:12px}
+  .fc-back-ex{font-size:13px;color:#777;font-style:italic;line-height:1.7}
+  .fc-hint{font-size:12px;color:#aaa;margin-bottom:16px;text-align:center}
+  .fc-btns{display:flex;gap:12px;justify-content:center;margin-bottom:24px}
+  .fc-btn{padding:10px 24px;border:2px solid var(--border);border-radius:8px;cursor:pointer;font-size:14px;font-weight:700;font-family:'Noto Sans JP',sans-serif;background:white;transition:all .15s}
+  .fc-btn.know{border-color:var(--green);color:var(--green)}
+  .fc-btn.know:hover{background:var(--green);color:white}
+  .fc-btn.review{border-color:var(--orange);color:var(--orange)}
+  .fc-btn.review:hover{background:var(--orange);color:white}
+  .fc-progress{font-size:13px;color:#888;text-align:center;margin-bottom:16px}
+  .fc-done{text-align:center;padding:32px 24px;background:white;border-radius:12px;border:1px solid var(--border)}
+  .step-header{font-size:16px;font-weight:900;color:var(--blue);margin-bottom:16px;padding-bottom:10px;border-bottom:2px solid var(--light-blue)}
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="header-top">
+    <span class="unit-badge">Unit 62</span>
+    <h1>Overfishing and Aquaculture</h1>
+  </div>
+  <div class="header-sub">乱獲と水産養殖</div>
+</div>
+<div class="header-bar"></div>
+
+<nav class="steps-nav">
+  <button class="step-btn active" onclick="showStep(1,this)">🎧 Step 1<br>Listen</button>
+  <button class="step-btn" onclick="showStep(2,this)">📖 Step 2<br>Read</button>
+  <button class="step-btn" onclick="showStep(3,this)">✏️ Step 3<br>Quiz</button>
+  <button class="step-btn" onclick="showStep(4,this)">🃏 Step 4<br>Flashcards</button>
+</nav>
+
+<!-- STEP 1 -->
+<div class="step-content active" id="step1">
+  <div class="listen-card">
+    <div class="listen-icon">🎧</div>
+    <div class="listen-title">まず音声を聴こう</div>
+    <div class="listen-sub">英文を見る前に、音声だけで内容を掴んでみよう</div>
+    <audio controls src="sokujukure184_eibun62.mp3"></audio>
+  </div>
+</div>
+
+<!-- STEP 2 -->
+<div class="step-content" id="step2">
+  <div class="step-header">📖 英文を読んで理解しよう</div>
+
+  <!-- Para 1 -->
+  <div class="para-card">
+    <span class="para-num">¶ 1</span>
+    <div class="para-en">The world's oceans are being <em>overfished</em>, and fish cannot produce enough young to make up for the losses. According to the United Nations Food and Agriculture Organization, 28% of fisheries worldwide are on the verge of extinction. Many scientists predict that the kinds of fish we eat regularly will all but disappear from the North Atlantic region in the next 30 years. Statistics like these should bring the seriousness of this problem home to people.</div>
+    <div class="para-ja">世界の海洋では魚が乱獲されており、魚は損失を補うだけの十分な稚魚を産めていない。国連食糧農業機関によると、世界中の漁業の28%が絶滅の瀬戸際にある。多くの科学者が、私たちが普段食べている種類の魚は今後30年でほぼ北大西洋から姿を消すだろうと予測している。このような統計は、この問題の深刻さを人々に実感させるべきだ。</div>
+    <div class="vocab-box box">
+      <div class="box-title">📚 Vocabulary</div>
+      <strong>overfished</strong>「乱獲された」／ <strong>make up for</strong>「〜を補う」／ <strong>on the verge of extinction</strong>「絶滅の瀬戸際に」／ <strong>all but</strong>「ほぼ〜」／ <strong>bring A home to B</strong>「AをBに実感させる」
+    </div>
+    <div class="check-q">
+      <div class="check-q-label">❓ Check</div>
+      According to the UN Food and Agriculture Organization, what percentage of fisheries are on the verge of extinction?<br>
+      <strong>→ 28%</strong>
+    </div>
+  </div>
+
+  <!-- Para 2 -->
+  <div class="para-card">
+    <span class="para-num">¶ 2</span>
+    <div class="para-en">The overfishing problem is all the more dangerous because of global population growth. There will be many more people who want or need to eat fish if current growth continues. This is not to speak of the increasing wealth in many regions, which will also increase demand.</div>
+    <div class="para-ja">乱獲問題は、世界人口の増加によってさらに危険なものとなっている。現在の人口増加が続けば、魚を食べたい・食べる必要がある人々がさらに増えるだろう。これに加えて、多くの地域での富の増大についても言わずもがなで、これもまた需要を増加させるだろう。</div>
+    <div class="vocab-box box">
+      <div class="box-title">📚 Vocabulary</div>
+      <strong>all the more</strong>「それだけ一層」／ <strong>not to speak of</strong>「〜は言うまでもなく」／ <strong>demand</strong>「需要」
+    </div>
+    <div class="grammar-box box">
+      <div class="box-title">📝 Grammar</div>
+      <strong>all the more … because …</strong>：「〜だからこそいっそう…だ」という強調表現。<br>
+      例：<em>The problem is all the more serious because of the rapid increase in population.</em>（急激な人口増加のために、問題はいっそう深刻だ。）
+    </div>
+    <div class="check-q">
+      <div class="check-q-label">❓ Check</div>
+      Why is overfishing becoming even more dangerous?<br>
+      <strong>→ Because of global population growth and increasing wealth, which will increase demand for fish.</strong>
+    </div>
+  </div>
+
+  <!-- Para 3 -->
+  <div class="para-card">
+    <span class="para-num">¶ 3</span>
+    <div class="para-en">Aquaculture, or fish farming, is a good solution to some extent, but it is not always helpful. What with the crowded conditions in farms and the pollution they create, it causes problems for the environment and the fish. Farmers often resort to giving fish hormones to increase production, which is bad for the people who eat them as well as the fish.</div>
+    <div class="para-ja">水産養殖（魚の養殖）は、ある程度は良い解決策だが、常に役立つとは限らない。養殖場の過密状態や、それが生み出す汚染が原因で、環境や魚に問題を引き起こす。農家はしばしば生産量を増やすためにホルモン剤を魚に与えることに頼るが、これは魚だけでなく食べる人間にとっても良くない。</div>
+    <div class="vocab-box box">
+      <div class="box-title">📚 Vocabulary</div>
+      <strong>aquaculture</strong>「水産養殖」／ <strong>to some extent</strong>「ある程度」／ <strong>what with</strong>「〜やら…やらで」／ <strong>resort to</strong>「〜に頼る」／ <strong>hormone</strong>「ホルモン」／ <strong>as well as</strong>「〜だけでなく…も」
+    </div>
+    <div class="idiom-box box">
+      <div class="box-title">💡 Idiom</div>
+      <strong>resort to ~</strong>：やむを得ず〜に頼る・〜という手段に訴える<br>
+      例：<em>They had to resort to drastic measures.</em>（彼らは思い切った手段に訴えなければならなかった。）
+    </div>
+    <div class="check-q">
+      <div class="check-q-label">❓ Check</div>
+      What problem is caused by giving fish hormones in aquaculture?<br>
+      <strong>→ It is bad for both the fish and the people who eat them.</strong>
+    </div>
+  </div>
+
+  <!-- Para 4 -->
+  <div class="para-card">
+    <span class="para-num">¶ 4</span>
+    <div class="para-en">In view of these problems, blue water fish farming may be a solution. These offshore farms let farmers bring up fish in open waters out of the way of those near to the shore. If we put this method of farming into practice in a safe way, it may be a solution. Meanwhile, consumers will need to choose sustainable fish at all costs. If we want to preserve ocean life, doing nothing is out of the question.</div>
+    <div class="para-ja">これらの問題を踏まえると、沖合水産養殖が解決策となり得るかもしれない。このような沖合養殖では、海岸近くの養殖を避け、開けた海域で魚を育てることができる。この養殖方法を安全な形で実践することができれば、解決策となり得るだろう。一方で、消費者は何としても持続可能な魚を選ぶ必要があるだろう。海洋生物を守りたいなら、何もしないという選択肢はあり得ない。</div>
+    <div class="vocab-box box">
+      <div class="box-title">📚 Vocabulary</div>
+      <strong>in view of</strong>「〜を考慮して」／ <strong>offshore</strong>「沖合の」／ <strong>put ... into practice</strong>「〜を実践する」／ <strong>sustainable</strong>「持続可能な」／ <strong>at all costs</strong>「何としても」／ <strong>out of the question</strong>「問題外、あり得ない」
+    </div>
+    <div class="idiom-box box">
+      <div class="box-title">💡 Idiom</div>
+      <strong>out of the question</strong>：「問題外」「絶対に無理」という意味。<em>not to be considered</em> と同義。<br>
+      例：<em>His offer is out of the question.</em>（彼の申し出は問題外だ。）<br><br>
+      <strong>in view of ~</strong>：「〜を考慮して、〜に鑑みて」<br>
+      例：<em>In view of the situation, we must act now.</em>（状況を考慮すると、今行動しなければならない。）
+    </div>
+    <div class="check-q">
+      <div class="check-q-label">❓ Check</div>
+      What advantage does offshore (blue water) fish farming have over traditional aquaculture?<br>
+      <strong>→ It lets farmers raise fish in open waters, away from the crowded and polluted conditions near shore.</strong>
+    </div>
+  </div>
+</div>
+
+<!-- STEP 3 -->
+<div class="step-content" id="step3">
+  <div class="step-header">✏️ 理解度チェッククイズ</div>
+
+  <div class="quiz-card" id="qc1">
+    <div class="quiz-q">1. According to the passage, what percentage of fisheries worldwide are on the verge of extinction?</div>
+    <div class="quiz-opts">
+      <button class="quiz-opt" onclick="answer(this,'wrong',1)">① 18%</button>
+      <button class="quiz-opt" onclick="answer(this,'correct',1)">② 28%</button>
+      <button class="quiz-opt" onclick="answer(this,'wrong',1)">③ 38%</button>
+      <button class="quiz-opt" onclick="answer(this,'wrong',1)">④ 48%</button>
+    </div>
+    <div class="quiz-fb" id="qf1"></div>
+  </div>
+
+  <div class="quiz-card" id="qc2">
+    <div class="quiz-q">2. The phrase "all but" in paragraph 1 means ____.</div>
+    <div class="quiz-opts">
+      <button class="quiz-opt" onclick="answer(this,'wrong',2)">① completely</button>
+      <button class="quiz-opt" onclick="answer(this,'wrong',2)">② not at all</button>
+      <button class="quiz-opt" onclick="answer(this,'correct',2)">③ almost</button>
+      <button class="quiz-opt" onclick="answer(this,'wrong',2)">④ only a little</button>
+    </div>
+    <div class="quiz-fb" id="qf2"></div>
+  </div>
+
+  <div class="quiz-card" id="qc3">
+    <div class="quiz-q">3. According to the passage, why is aquaculture (fish farming) not always a good solution?</div>
+    <div class="quiz-opts">
+      <button class="quiz-opt" onclick="answer(this,'wrong',3)">① It produces fish that are too expensive for consumers.</button>
+      <button class="quiz-opt" onclick="answer(this,'correct',3)">② Crowded conditions, pollution, and the use of hormones cause problems.</button>
+      <button class="quiz-opt" onclick="answer(this,'wrong',3)">③ It requires too much open water to be practical.</button>
+      <button class="quiz-opt" onclick="answer(this,'wrong',3)">④ Farmed fish taste different from wild fish.</button>
+    </div>
+    <div class="quiz-fb" id="qf3"></div>
+  </div>
+
+  <div class="quiz-card" id="qc4">
+    <div class="quiz-q">4. What is the advantage of "blue water" or offshore fish farming?</div>
+    <div class="quiz-opts">
+      <button class="quiz-opt" onclick="answer(this,'wrong',4)">① It uses no hormones and produces organic fish.</button>
+      <button class="quiz-opt" onclick="answer(this,'wrong',4)">② It is cheaper than traditional land-based farming.</button>
+      <button class="quiz-opt" onclick="answer(this,'correct',4)">③ Fish are raised in open waters, away from crowded and polluted nearshore conditions.</button>
+      <button class="quiz-opt" onclick="answer(this,'wrong',4)">④ It is already widely practiced and proven to be effective.</button>
+    </div>
+    <div class="quiz-fb" id="qf4"></div>
+  </div>
+
+  <div class="quiz-card" id="qc5">
+    <div class="quiz-q">5. The phrase "out of the question" in paragraph 4 means ____.</div>
+    <div class="quiz-opts">
+      <button class="quiz-opt" onclick="answer(this,'wrong',5)">① the most important issue</button>
+      <button class="quiz-opt" onclick="answer(this,'wrong',5)">② difficult but possible</button>
+      <button class="quiz-opt" onclick="answer(this,'correct',5)">③ absolutely impossible / not to be considered</button>
+      <button class="quiz-opt" onclick="answer(this,'wrong',5)">④ a minor concern</button>
+    </div>
+    <div class="quiz-fb" id="qf5"></div>
+  </div>
+
+  <div class="quiz-score" id="quiz-score" style="display:none">
+    <div>あなたのスコア</div>
+    <div class="score-num"><span id="score-val">0</span> / 5</div>
+    <div style="margin-top:8px;color:#555;font-size:14px" id="score-msg"></div>
+    <button class="retry-btn" onclick="retryQuiz()">もう一度挑戦</button>
+  </div>
+</div>
+
+<!-- STEP 4 -->
+<div class="step-content" id="step4">
+  <div class="step-header">🃏 イディオム・フラッシュカード</div>
+  <div class="fc-wrap">
+    <div class="fc-progress" id="fc-prog"></div>
+    <div class="fc-card" id="fc-card" onclick="flipCard()">
+      <div class="fc-front" id="fc-front"></div>
+      <div class="fc-back" id="fc-back" style="display:none">
+        <div class="fc-back-en" id="fc-en"></div>
+        <div class="fc-back-ja" id="fc-ja"></div>
+        <div class="fc-back-ex" id="fc-ex"></div>
+      </div>
+    </div>
+    <div class="fc-hint" id="fc-hint">カードをタップして意味を確認</div>
+    <div class="fc-btns" id="fc-btns" style="display:none">
+      <button class="fc-btn know" onclick="markCard(true)">✓ わかった</button>
+      <button class="fc-btn review" onclick="markCard(false)">↩ もう一度</button>
+    </div>
+    <div class="fc-done" id="fc-done" style="display:none">
+      <div style="font-size:32px;margin-bottom:12px">🎉</div>
+      <div style="font-weight:700;font-size:16px;margin-bottom:8px">お疲れ様でした！</div>
+      <div style="font-size:13px;color:#555;margin-bottom:16px">全カード完了</div>
+      <button class="retry-btn" onclick="shuffleCards()">もう一度</button>
+    </div>
+  </div>
+</div>
+
+<script>
+function showStep(n, btn) {
+  document.querySelectorAll('.step-content').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.step-btn').forEach(el => el.classList.remove('active'));
+  document.getElementById('step' + n).classList.add('active');
+  btn.classList.add('active');
+}
+
+let scores = {};
+let answered = {};
+function answer(btn, type, qn) {
+  if (answered[qn]) return;
+  answered[qn] = true;
+  const fb = document.getElementById('qf' + qn);
+  btn.classList.add(type === 'correct' ? 'correct' : 'wrong');
+  if (type === 'correct') {
+    scores[qn] = 1;
+    fb.textContent = '✓ 正解！';
+    fb.className = 'quiz-fb show ok';
+  } else {
+    scores[qn] = 0;
+    fb.className = 'quiz-fb show ng';
+    const opts = btn.parentElement.querySelectorAll('.quiz-opt');
+    let correctTexts = {
+      1: '② 28%',
+      2: '③ almost',
+      3: '② Crowded conditions, pollution, and the use of hormones cause problems.',
+      4: '③ Fish are raised in open waters, away from crowded and polluted nearshore conditions.',
+      5: '③ absolutely impossible / not to be considered'
+    };
+    fb.textContent = '✗ 不正解。正解は「' + correctTexts[qn] + '」';
+    opts.forEach(o => { if (o.textContent.trim().startsWith(correctTexts[qn].charAt(0) + (correctTexts[qn].charAt(1) === ' ' ? '' : ''))) { } });
+  }
+  document.querySelectorAll('#qc' + qn + ' .quiz-opt').forEach(o => o.disabled = true);
+  if (Object.keys(answered).length === 5) showScore();
+}
+function showScore() {
+  const total = Object.values(scores).reduce((a, b) => a + b, 0);
+  document.getElementById('score-val').textContent = total;
+  const msgs = ['もう一度読んでみよう💪', '惜しい！復習しよう📖', 'よく頑張りました！🌟', '素晴らしい！⭐', '満点！完璧です！🏆'];
+  document.getElementById('score-msg').textContent = msgs[total] || msgs[4];
+  document.getElementById('quiz-score').style.display = 'block';
+}
+function retryQuiz() {
+  scores = {}; answered = {};
+  document.getElementById('quiz-score').style.display = 'none';
+  document.querySelectorAll('.quiz-opt').forEach(o => {
+    o.classList.remove('correct', 'wrong');
+    o.disabled = false;
+  });
+  document.querySelectorAll('.quiz-fb').forEach(f => f.className = 'quiz-fb');
+}
+
+const cards = [
+  { front: 'make up for ~', en: 'make up for ~', ja: '〜を補う・埋め合わせる', ex: 'He made up for his lack of knowledge by studying hard.\n（彼は勉強することで知識不足を補った。）' },
+  { front: 'all but', en: 'all but', ja: 'ほぼ〜、〜も同然で', ex: 'The species will all but disappear in 30 years.\n（その種は30年でほぼ絶滅するだろう。）' },
+  { front: 'bring A home to B', en: 'bring A home to B', ja: 'AをBに痛感させる・実感させる', ex: 'Her story brought the importance of family home to me.\n（彼女の話が家族の大切さを私に実感させた。）' },
+  { front: 'not to speak of ~', en: 'not to speak of ~', ja: '〜は言うまでもなく', ex: 'He speaks French, not to speak of English.\n（彼は英語は言うまでもなく、フランス語も話す。）' },
+  { front: 'to some extent', en: 'to some extent', ja: 'ある程度', ex: 'Aquaculture is a solution to some extent.\n（水産養殖はある程度の解決策だ。）' },
+  { front: 'resort to ~', en: 'resort to ~', ja: '（やむを得ず）〜に頼る・訴える', ex: 'Farmers often resort to giving fish hormones.\n（農家はしばしばホルモン剤を与えることに頼る。）' },
+  { front: 'in view of ~', en: 'in view of ~', ja: '〜を考慮して・〜に鑑みて', ex: 'In view of the danger, we must act now.\n（危険を考慮して、今すぐ行動しなければならない。）' },
+  { front: 'at all costs', en: 'at all costs', ja: '何としても・どんな犠牲を払っても', ex: 'We must avoid this at all costs.\n（何としてもこれを避けなければならない。）' },
+  { front: 'out of the question', en: 'out of the question', ja: '問題外・絶対に不可能', ex: 'Doing nothing is out of the question.\n（何もしないのは問題外だ。）' },
+];
+
+let deck = [], current = 0, flipped = false;
+function shuffleCards() {
+  deck = [...cards].sort(() => Math.random() - 0.5);
+  current = 0; flipped = false;
+  document.getElementById('fc-done').style.display = 'none';
+  document.getElementById('fc-card').style.display = 'flex';
+  document.getElementById('fc-hint').style.display = 'block';
+  renderCard();
+}
+function renderCard() {
+  if (current >= deck.length) {
+    document.getElementById('fc-card').style.display = 'none';
+    document.getElementById('fc-btns').style.display = 'none';
+    document.getElementById('fc-hint').style.display = 'none';
+    document.getElementById('fc-done').style.display = 'block';
+    document.getElementById('fc-prog').textContent = '';
+    return;
+  }
+  const c = deck[current];
+  document.getElementById('fc-front').textContent = c.front;
+  document.getElementById('fc-front').style.display = 'block';
+  document.getElementById('fc-back').style.display = 'none';
+  document.getElementById('fc-en').textContent = c.en;
+  document.getElementById('fc-ja').textContent = c.ja;
+  document.getElementById('fc-ex').textContent = c.ex;
+  document.getElementById('fc-btns').style.display = 'none';
+  document.getElementById('fc-hint').style.display = 'block';
+  document.getElementById('fc-prog').textContent = (current + 1) + ' / ' + deck.length;
+  flipped = false;
+}
+function flipCard() {
+  if (flipped) return;
+  flipped = true;
+  document.getElementById('fc-front').style.display = 'none';
+  document.getElementById('fc-back').style.display = 'block';
+  document.getElementById('fc-btns').style.display = 'flex';
+  document.getElementById('fc-hint').style.display = 'none';
+}
+function markCard(known) {
+  if (!known) deck.push(deck[current]);
+  current++;
+  renderCard();
+}
+shuffleCards();
+</script>
+</body>
+</html>
